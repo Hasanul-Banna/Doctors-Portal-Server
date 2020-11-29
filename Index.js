@@ -62,15 +62,6 @@ client.connect(err => {
             return res.send({ name: file.name, path: `/${file.name}` })
         })
 
-        // const newImg = file.data;
-        // const encImg = newImg.toString('base64');
-
-        // var image = {
-        //     contentType: file.mimetype,
-        //     size: file.size,
-        //     img: Buffer.from(encImg, 'base64')
-        // };
-
         doctorCollection.insertOne({ name, email, image: file.name })
             .then(result => {
                 res.send(result.insertedCount > 0);
@@ -83,6 +74,7 @@ client.connect(err => {
                 res.send(documents);
             })
     });
+
     app.post('/isDoctor', (req, res) => {
         const email = req.body.email;
         doctorCollection.find({ email: email })
@@ -90,9 +82,7 @@ client.connect(err => {
                 res.send(doctors.length > 0);
             })
     });
-
 });
-
 
 app.listen(process.env.PORT || port)
 
